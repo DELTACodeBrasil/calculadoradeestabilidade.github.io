@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Estabilidade · Barrowman</title>
+    <link rel="icon" type="image/png" href="Calculadora de Estabilidade.png">
+    <!-- Fontes clássicas -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <!-- Bibliotecas externas -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <!-- Logo esquerda: Calculadora de Estabilidade.png (sem borda) -->
+                <img src="Calculadora de Estabilidade.png" 
+                     alt="Ícone Calculadora" 
+                     class="header-logo logo-calc"
+                     onerror="this.style.display='none'">
+                <!-- Título central -->
+                <div class="header-title">
+                    <h1>Calculadora de Estabilidade</h1>
+                    <p class="subtitulo">Método de Barrowman • Arthur Oliveiro</p>
+                </div>
+                <!-- Logo direita: DELTA CODE BRASIL (com borda) -->
+                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiLZWENOXOoarJ5Pk0xLf9SW9wA6DiIfJ2_cZuekSzW06kRqyOszqKNiMBkVtBSMnD4m_YJU_m9oaMpqM8gbmbkErxr9D40KBDlDQb0_YK078SyGEFbXXTI7QdDmxBwjp5ADQ2jpcZGweZzEmE3aVYC0-qBSAf4-mb1GXYvYYBS2gALoSYkWZOdWEI8TZM/s1600/%CE%94.D%CE%A3LTA%20Code.png" 
+                     alt="Δ.DΣLTA CODE BRASIL" 
+                     class="header-logo logo-delta">
+            </div>
+        </header>
+
+        <!-- Painel CG -->
+        <section class="painel">
+            <h2>‣ Centro de Gravidade (CG)</h2>
+            <div class="grid">
+                <label for="mNariz">Massa do nariz (g)</label>
+                <input id="mNariz" type="number" step="0.1" placeholder="0">
+
+                <label for="xNariz">Posição do nariz (mm)</label>
+                <input id="xNariz" type="number" step="0.1" placeholder="0">
+
+                <label for="mCorpo">Massa do corpo (g)</label>
+                <input id="mCorpo" type="number" step="0.1" placeholder="0">
+
+                <label for="xCorpo">Posição do corpo (mm)</label>
+                <input id="xCorpo" type="number" step="0.1" placeholder="0">
+
+                <label for="mMotor">Massa do motor (g)</label>
+                <input id="mMotor" type="number" step="0.1" placeholder="0">
+
+                <label for="xMotor">Posição do motor (mm)</label>
+                <input id="xMotor" type="number" step="0.1" placeholder="0">
+
+                <label for="mEmpenas">Massa das empenas (g)</label>
+                <input id="mEmpenas" type="number" step="0.1" placeholder="0">
+
+                <label for="xEmpenas">Posição das empenas (mm)</label>
+                <input id="xEmpenas" type="number" step="0.1" placeholder="0">
+            </div>
+        </section>
+
+        <!-- Painel Empenas -->
+        <section class="painel">
+            <h2>‣ Geometria das Empenas</h2>
+            <div class="grid">
+                <label for="a">Base maior – a (mm)</label>
+                <input id="a" type="number" step="0.1" placeholder="0">
+
+                <label for="b">Base menor – b (mm)</label>
+                <input id="b" type="number" step="0.1" placeholder="0">
+
+                <label for="m">Altura – m (mm)</label>
+                <input id="m" type="number" step="0.1" placeholder="0">
+
+                <label for="N">Número de empenas (N)</label>
+                <input id="N" type="number" step="1" placeholder="0">
+
+                <label for="d">Diâmetro do foguete – d (mm)</label>
+                <input id="d" type="number" step="0.1" placeholder="0">
+
+                <label for="yfo">Início das empenas – yfo (mm)</label>
+                <input id="yfo" type="number" step="0.1" placeholder="0">
+
+                <label for="Ln">Comprimento do nariz – Ln (mm)</label>
+                <input id="Ln" type="number" step="0.1" placeholder="0">
+            </div>
+        </section>
+
+        <!-- Botões de ação -->
+        <div class="botoes">
+            <button onclick="calcular()">CALCULAR ESTABILIDADE</button>
+            <button onclick="gerarPDF()">EXPORTAR RELATÓRIO PDF</button>
+        </div>
+
+        <!-- Resultados -->
+        <section class="painel resultado-panel">
+            <h2>‣ Relatório Técnico</h2>
+            <div id="resultado">Aguardando cálculo...</div>
+        </section>
+
+        <!-- Gráfico de comparação -->
+        <section class="painel">
+            <h2>‣ Comparação CG × CP</h2>
+            <div class="chart-wrapper">
+                <canvas id="grafico" width="600" height="300"></canvas>
+            </div>
+        </section>
+
+        <!-- Visualização 2D -->
+        <section class="painel">
+            <h2>‣ Representação 2D</h2>
+            <div class="canvas-wrapper">
+                <canvas id="fogueteCanvas" width="800" height="200"></canvas>
+            </div>
+            <div class="legenda">
+                <span class="cg-legenda">◉ CG (vermelho)</span>
+                <span class="cp-legenda">◉ CP (azul)</span>
+            </div>
+        </section>
+
+        <!-- Rodapé -->
+        <footer>
+            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiLZWENOXOoarJ5Pk0xLf9SW9wA6DiIfJ2_cZuekSzW06kRqyOszqKNiMBkVtBSMnD4m_YJU_m9oaMpqM8gbmbkErxr9D40KBDlDQb0_YK078SyGEFbXXTI7QdDmxBwjp5ADQ2jpcZGweZzEmE3aVYC0-qBSAf4-mb1GXYvYYBS2gALoSYkWZOdWEI8TZM/s1600/%CE%94.D%CE%A3LTA%20Code.png" 
+                 alt="Δ.DΣLTA CODE BRASIL" 
+                 class="logo-footer"
+                 onerror="this.style.display='none'">
+            <p>© 2026 Δ.DΣLTA CODE BRASIL – Todos os direitos reservados.</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

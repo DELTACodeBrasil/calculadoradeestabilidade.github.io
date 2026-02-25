@@ -1,0 +1,319 @@
+/* ===== RESET E VARIÁVEIS ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bg-paper: #faf3e9;
+    --bg-overlay: rgba(240, 235, 225, 0.85);
+    --border-color: #6b5a4c;
+    --text-dark: #2c2c2c;
+    --text-soft: #3e3a35;
+    --accent: #8b7a6b;
+    --font-serif: 'Crimson Text', 'Garamond', 'Times New Roman', serif;
+    --font-heading: 'Cinzel', 'Times New Roman', serif;
+    --transition: 0.2s ease;
+}
+
+/* ===== ESTRUTURA BASE ===== */
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: url('Calculadora de Estabilidade.png') center/cover fixed no-repeat;
+    background-color: #2e2b25;
+    font-family: var(--font-serif);
+    color: var(--text-dark);
+    line-height: 1.6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    position: relative;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-color: var(--bg-overlay);
+    z-index: 0;
+}
+
+.container {
+    position: relative;
+    z-index: 1;
+    max-width: 1200px;
+    width: 100%;
+    background-color: var(--bg-paper);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+    padding: clamp(20px, 5vw, 40px);
+}
+
+/* ===== CABEÇALHO COM LOGO ===== */
+header {
+    margin-bottom: 35px;
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 20px;
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center; /* Centraliza em telas pequenas */
+}
+
+.header-logo {
+    max-width: 80px;
+    height: auto;
+}
+
+.logo-calc {
+    /* sem borda */
+    filter: sepia(0.8) contrast(1.2);
+}
+
+.logo-delta {
+    filter: sepia(0.8) contrast(1.2);
+    border: 1px solid var(--border-color);
+    padding: 6px;
+    background: var(--bg-paper);
+}
+
+@media (min-width: 600px) {
+    .header-content {
+        justify-content: space-between; /* Logos nas extremidades, título ao centro */
+    }
+    .header-logo {
+        max-width: 100px;
+    }
+}
+
+.header-title {
+    text-align: center; /* Centraliza título e subtítulo */
+    flex: 1; /* Ocupa espaço para centralizar entre as logos */
+}
+
+h1 {
+    font-size: clamp(1.8rem, 5vw, 2.8rem);
+    font-weight: 400;
+    letter-spacing: 2px;
+    color: var(--text-dark);
+    text-transform: uppercase;
+    font-family: var(--font-heading);
+    text-shadow: 2px 2px 0 #b0a28a;
+    line-height: 1.2;
+    margin: 0;
+}
+
+.subtitulo {
+    font-size: 1.1rem;
+    color: var(--text-soft);
+    font-style: italic;
+    margin-top: 5px;
+}
+
+/* ===== PAINÉIS ===== */
+.painel {
+    background-color: rgba(250, 245, 235, 0.9);
+    border: 1px solid var(--border-color);
+    padding: 24px;
+    margin-bottom: 30px;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    font-size: 1.6rem;
+    font-weight: 400;
+    color: var(--text-soft);
+    margin: 0 0 24px 0;
+    border-left: 6px solid #5b4f42;
+    padding-left: 18px;
+    font-family: var(--font-heading);
+    letter-spacing: 1px;
+}
+
+/* ===== GRID RESPONSIVO ===== */
+.grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px 24px;
+    align-items: center;
+}
+
+@media (min-width: 600px) {
+    .grid {
+        grid-template-columns: minmax(180px, auto) 1fr;
+    }
+}
+
+@media (min-width: 900px) {
+    .grid {
+        grid-template-columns: 220px minmax(200px, 300px);
+    }
+}
+
+label {
+    font-size: 1.05rem;
+    color: #3b352f;
+    font-weight: 500;
+    font-style: italic;
+    text-align: left;
+}
+
+@media (min-width: 600px) {
+    label {
+        text-align: right;
+    }
+}
+
+input {
+    background: #fff9f0;
+    border: 1px solid #7f6e5d;
+    padding: 12px 14px;
+    font-family: 'Courier New', 'Times New Roman', serif;
+    font-size: 1rem;
+    color: #1f1b16;
+    box-shadow: inset 1px 1px 4px rgba(0, 0, 0, 0.1);
+    transition: border var(--transition), box-shadow var(--transition);
+    width: 100%;
+}
+
+input:focus {
+    outline: none;
+    border-color: #3b352f;
+    background: #ffffff;
+    box-shadow: inset 1px 1px 6px rgba(0, 0, 0, 0.15);
+}
+
+/* Placeholder mais claro */
+input::placeholder {
+    color: #aaa;
+    font-style: italic;
+    opacity: 0.8;
+}
+
+/* ===== BOTÕES ===== */
+.botoes {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin: 35px 0;
+}
+
+@media (min-width: 500px) {
+    .botoes {
+        flex-direction: row;
+        justify-content: center;
+    }
+}
+
+button {
+    background: #e5d7c5;
+    border: 2px solid #3b352f;
+    color: #2c2c2c;
+    font-family: var(--font-heading);
+    font-size: 1.1rem;
+    font-weight: 600;
+    padding: 14px 28px;
+    letter-spacing: 1.5px;
+    cursor: pointer;
+    text-transform: uppercase;
+    box-shadow: 5px 5px 0 #3b352f;
+    transition: transform 0.1s, box-shadow 0.1s, background 0.2s;
+    flex: 0 1 auto;
+    min-width: 240px;
+}
+
+button:hover {
+    background: #d6c5b2;
+    box-shadow: 3px 3px 0 #3b352f;
+    transform: translate(2px, 2px);
+}
+
+button:active {
+    transform: translate(4px, 4px);
+    box-shadow: 1px 1px 0 #3b352f;
+}
+
+/* ===== RESULTADOS ===== */
+.resultado-panel div {
+    background: #faf3e9;
+    padding: 24px;
+    border: 1px solid #6b5a4c;
+    font-family: 'Courier New', 'Times New Roman', serif;
+    font-size: 1.2rem;
+    line-height: 1.8;
+    color: #1f1b16;
+    white-space: pre-line;
+    word-break: break-word;
+}
+
+/* ===== GRÁFICO E CANVAS ===== */
+.chart-wrapper, .canvas-wrapper {
+    background: #faf3e9;
+    border: 1px solid #6b5a4c;
+    padding: 15px;
+}
+
+canvas {
+    display: block;
+    width: 100%;
+    height: auto;
+    background: #faf3e9;
+}
+
+#grafico {
+    max-width: 100%;
+    height: auto;
+}
+
+#fogueteCanvas {
+    width: 100%;
+    height: auto;
+}
+
+/* ===== LEGENDA ===== */
+.legenda {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 16px;
+    color: #3b352f;
+    font-size: 1.1rem;
+    font-style: italic;
+    flex-wrap: wrap;
+}
+
+.cg-legenda { color: #b22222; font-weight: bold; }
+.cp-legenda { color: #1e3a8a; font-weight: bold; }
+
+/* ===== RODAPÉ ===== */
+footer {
+    text-align: center;
+    margin-top: 50px;
+    padding: 25px 0 10px;
+    border-top: 1px dashed #6b5a4c;
+    color: #4f4a42;
+    font-size: 0.95rem;
+    font-style: italic;
+}
+
+.logo-footer {
+    max-width: 140px;
+    margin-bottom: 15px;
+    filter: sepia(0.6) contrast(1.2);
+    opacity: 0.9;
+    border: 1px solid #6b5a4c;
+    padding: 6px;
+    background: #faf3e9;
+    transition: filter 0.3s;
+}
+
+.logo-footer:hover {
+    filter: sepia(0.2) contrast(1.4);
+}
