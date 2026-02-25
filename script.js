@@ -2,7 +2,8 @@ let chart;
 
 function obterValor(id) {
     const el = document.getElementById(id);
-    return el && el.value ? parseFloat(el.value) : 0;
+    // Se o campo estiver vazio, retorna 0 (padrão)
+    return el && el.value !== '' ? parseFloat(el.value) : 0;
 }
 
 function calcular() {
@@ -58,7 +59,7 @@ function calcular() {
     // Margem estática
     const E = d > 0 ? (CP - CG) / d : 0;
 
-    // Classificação textual (sem emojis)
+    // Classificação textual
     let classificacao = '';
     if (E > 1) classificacao = 'Estável (Alta Margem)'; 
     else if (E > 0) classificacao = 'Marginalmente Estável';
@@ -93,6 +94,8 @@ function atualizarGrafico(CG, CP) {
             }]
         },
         options: {
+            responsive: true,
+            maintainAspectRatio: true,
             plugins: {
                 legend: { display: false }
             },
@@ -153,7 +156,7 @@ async function gerarPDF() {
     doc.text('Projeto de Foguete – Método de Barrowman', 20, 30);
     doc.text('Calculadora de Estabilidade', 20, 38);
 
-    doc.line(20, 45, 190, 45); // linha separadora
+    doc.line(20, 45, 190, 45);
 
     let linhas = resultadoTexto.split('\n');
     let y = 55;
